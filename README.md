@@ -3,6 +3,8 @@
 試験までの残り日数少なくてヤバいわよっ！<br>
 ![image](https://github.com/Issaimaru/pythoncountdownbot/assets/80198387/1fad1b14-af34-4c3a-9c79-98f9b5a6e949)
 
+## environment
+テキトーにreplitで立ち上げてるんですが，結構いいですねこれ
 
 ## Links
 
