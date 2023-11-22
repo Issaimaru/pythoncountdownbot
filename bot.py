@@ -38,7 +38,8 @@ bot = interactions.AutoShardedClient(
     token=TOKENSTRING, intents=interactions.Intents.GUILDS
 )
 
-devservers = [1010636307216728094]
+APPLICATION_ID = getenv("DISCORD_APPLICATION_ID")
+devservers = [APPLICATION_ID]
 
 
 # Check this when activating shards
