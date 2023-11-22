@@ -1,5 +1,5 @@
 ﻿dateparser==1.1.1
-discord-py-interactions==4.4.1
+discord-py-interactions==5.8.0
 interactions-tasks==1.0.0
 interactions-wait-for==1.0.6
 psutil==5.9.1
