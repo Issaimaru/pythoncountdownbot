@@ -66,11 +66,11 @@ bot_starttime = floor(time.time())
 
 async def premium_bot(ctx, language):
     """To keep this bot from being added to a ton of servers this makes sure it can only be used in premium servers."""
-    ispremiumbot = False
+    ispremiumbot = True
     if ispremiumbot:
-        if ctx.guild_id is None:
-            await ctx.send(translations[(language)]["errPremiumDm"], ephemeral=True)
-            return True
+        # if ctx.guild_id is None:
+            # await ctx.send(translations[(language)]["errPremiumDm"], ephemeral=True)
+            # return True
         guild_id = int(ctx.guild_id)
 
         cursor = conn_premium_db.execute(
@@ -79,8 +79,8 @@ async def premium_bot(ctx, language):
         )
 
         # This checks if cursor got any rows, if it does, then the guild is premium
-        if len(cursor.fetchall()) != 0:
-            return False
+        # if len(cursor.fetchall()) != 0:
+        return False
         # If the code havent returned yet, its not a premium user
         await ctx.send(
             f"""{translations[(language)]["errPremiumBot"]}""", ephemeral=False
@@ -99,9 +99,9 @@ def get_language(ctx):
 
 async def check_no_premium(ctx, feature, language):
     """Make sure that a feature can only be used by premium users."""
-    if ctx.guild_id is None:
-        await ctx.send(translations[(language)]["errPremiumDm"], ephemeral=True)
-        return True
+    # if ctx.guild_id is None:
+        # await ctx.send(translations[(language)]["errPremiumDm"], ephemeral=True)
+        # return True
     guild_id = int(ctx.guild_id)
 
     cursor = conn_premium_db.execute(
@@ -110,8 +110,8 @@ async def check_no_premium(ctx, feature, language):
     )
 
     # This checks if cursor got any rows, if it does, then the guild is premium
-    if len(cursor.fetchall()) != 0:
-        return False
+    ## if len(cursor.fetchall()) != 0:
+    return False
     # If the code havent returned yet, its not a premium user
     await ctx.send(
         f"""{translations[(language)]["errPremium"]} {feature}""", ephemeral=True

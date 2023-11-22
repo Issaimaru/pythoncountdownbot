@@ -22,9 +22,9 @@ import command_builder
 
 import logging
 
-logging.basicConfig(
-    filename="log.txt", level=logging.WARNING, format="%(asctime)s - %(message)s"
-)
+logging.basicConfig(filename="log.txt",
+                    level=logging.WARNING,
+                    format="%(asctime)s - %(message)s")
 
 # These two are used to have the token as a .env file.
 from os import getenv
@@ -33,39 +33,38 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKENSTRING = getenv("DISCORD_TOKEN")
 
+bot = interactions.AutoShardedClient(token=TOKENSTRING,
+                                     intents=interactions.Intents.GUILDS)
 
-bot = interactions.AutoShardedClient(
-    token=TOKENSTRING, intents=interactions.Intents.GUILDS
-)
-
-APPLICATION_ID = getenv("DISCORD_APPLICATION_ID")
-devservers = [APPLICATION_ID]
+DEVSERVER_ID = getenv("DISCORD_DEVSERVER_ID")
+devservers = [DEVSERVER_ID]
 
 
 # Check this when activating shards
 # This sets the bots presence to "Listening to /help"
 @interactions.listen()
 async def on_startup():
-    timer_check.start()
-    await bot.change_presence(status=interactions.Status.ONLINE, activity="/help")
+  timer_check.start()
+  await bot.change_presence(status=interactions.Status.ONLINE,
+                            activity="/help")
 
 
 @bot.event
 async def on_channel_delete(channel):
-    command_builder.deleted_channel(channel)
+  command_builder.deleted_channel(channel)
 
 
 @bot.event
 async def on_thread_delete(thread):
-    command_builder.deleted_channel(thread)
+  command_builder.deleted_channel(thread)
 
 
 @interactions.slash_command(
     name="help",
-    description="Shows a help message",
+    description="ヘルプメッセージを表示",
 )
 async def help(ctx: interactions.SlashContext):
-    await command_builder.help_information(ctx)
+  await command_builder.help_information(ctx)
 
 
 @interactions.slash_command(
@@ -73,16 +72,16 @@ async def help(ctx: interactions.SlashContext):
     description="Get information about how premium works",
 )
 async def premiuminfo(ctx: interactions.SlashContext):
-    await command_builder.premium_info(ctx)
+  await command_builder.premium_info(ctx)
 
 
 @interactions.slash_command(
     name="generatetimestamp",
-    description="Generates a timestamp based of the time.",
+    description="時刻に基づいてタイムスタンプを生成する。",
     options=[
         SlashCommandOption(
             name="timestring",
-            description="What time do you want. Default timezone is ET.",
+            description="ご希望の時間帯 デフォルトのタイムゾーンはETです。",
             type=interactions.OptionType.STRING,
             max_length=100,
             required=True,
@@ -93,7 +92,7 @@ async def generatetimestamp(
     ctx: interactions.SlashContext,
     timestring,
 ):
-    await command_builder.generate_timestamp(ctx, timestring)
+  await command_builder.generate_timestamp(ctx, timestring)
 
 
 @interactions.slash_command(
@@ -185,9 +184,9 @@ async def generatetimestamp(
 async def countdown(
     ctx: interactions.SlashContext,
     timestring,
-    messagestart="指定の日時になりました",
-    messageend="!",
-    messageaftercomplete="",
+    messagestart="",
+    messageend="にカウントダウンがセットされました!",
+    messageaftercomplete="カウントダウンが終了しました！",
     countdownname=None,
     mention="0",
     repeat=0,
@@ -198,100 +197,100 @@ async def countdown(
     alert=True,
     bot=bot,
 ):
-    await command_builder.countdown(
-        ctx,
-        timestring,
-        messagestart,
-        messageend,
-        messageaftercomplete,
-        countdownname,
-        mention,
-        repeat,
-        repeattime,
-        image,
-        otherchannel,
-        exact,
-        alert,
-        bot,
-    )
+  await command_builder.countdown(
+      ctx,
+      timestring,
+      messagestart,
+      messageend,
+      messageaftercomplete,
+      countdownname,
+      mention,
+      repeat,
+      repeattime,
+      image,
+      otherchannel,
+      exact,
+      alert,
+      bot,
+  )
 
 
 @interactions.slash_command(
     name="timer",
-    description="Lets add a timer",
+    description="タイマーを追加しよう!",
     options=[
         SlashCommandOption(
             name="minute",
-            description="How many minutes",
+            description="何分",
             type=interactions.OptionType.INTEGER,
             required=False,
             max_value=1000,
         ),
         SlashCommandOption(
             name="hour",
-            description="How many hours",
+            description="何時間",
             type=interactions.OptionType.INTEGER,
             required=False,
             max_value=1000,
         ),
         SlashCommandOption(
             name="day",
-            description="How many days",
+            description="日数",
             type=interactions.OptionType.INTEGER,
             required=False,
             max_value=1000,
         ),
         SlashCommandOption(
             name="week",
-            description="How many weeks",
+            description="何週間",
             type=interactions.OptionType.INTEGER,
             required=False,
             max_value=1000,
         ),
         SlashCommandOption(
             name="messagestart",
-            description="Custom message before timer",
+            description="タイマー前のカスタムメッセージ",
             type=interactions.OptionType.STRING,
             max_length=100,
             required=False,
         ),
         SlashCommandOption(
             name="messageend",
-            description="Custom message after timer",
+            description="タイマー後のカスタムメッセージ",
             type=interactions.OptionType.STRING,
             max_length=100,
             required=False,
         ),
         SlashCommandOption(
             name="messageaftercomplete",
-            description="Custom message when timer runs out (PREMIUM FEATURE)",
+            description="タイマー終了時のカスタムメッセージ(PREMIUM FEATURE)",
             type=interactions.OptionType.STRING,
             max_length=100,
             required=False,
         ),
         SlashCommandOption(
             name="countdownname",
-            description="What should the name of the countdown be",
+            description="タイマーの名前を決める",
             type=interactions.OptionType.STRING,
             max_length=30,
             required=False,
         ),
         SlashCommandOption(
             name="mention",
-            description="Who to mention",
+            description="誰をメンションするか",
             type=interactions.OptionType.MENTIONABLE,
             required=False,
         ),
         SlashCommandOption(
             name="repeat",
-            description="Number of times to repeat (PREMIUM FEATURE)",
+            description="リピートの回数(PREMIUM FEATURE)",
             type=interactions.OptionType.INTEGER,
             required=False,
             max_value=220,
         ),
         SlashCommandOption(
             name="preset",
-            description="Save this timer as a preset (PREMIUM FEATURE)",
+            description="このタイマーをプリセットとして保存する (PREMIUM FEATURE)",
             type=interactions.OptionType.INTEGER,
             required=False,
             min_value=1,
@@ -299,26 +298,26 @@ async def countdown(
         ),
         SlashCommandOption(
             name="image",
-            description="Link to image to be shown at the end (PREMIUM FEATURE)",
+            description="最後に表示される画像へのURL　(PREMIUM FEATURE)",
             type=interactions.OptionType.STRING,
             required=False,
             max_length=200,
         ),
         SlashCommandOption(
             name="otherchannel",
-            description="Send the countdown to another channel",
+            description="カウントダウンを別のチャンネルに送る",
             type=interactions.OptionType.CHANNEL,
             required=False,
         ),
         SlashCommandOption(
             name="exact",
-            description="Set to false if you dont want exact date",
+            description="正確な日付が必要ない場合はfalseに設定する。",
             type=interactions.OptionType.BOOLEAN,
             required=False,
         ),
         SlashCommandOption(
             name="alert",
-            description="Set to false if you dont want to be alerted at completion",
+            description="完了時にアラートを出したくない場合はfalseに設定する。",
             type=interactions.OptionType.BOOLEAN,
             required=False,
         ),
@@ -330,9 +329,9 @@ async def timer(
     week=0,
     hour=0,
     minute=0,
-    messagestart="Timer will end",
-    messageend="!",
-    messageaftercomplete="",
+    messagestart="タイマーはあと",
+    messageend="に終了します!",
+    messageaftercomplete="タイマーが終了しました!",
     countdownname=None,
     mention="0",
     repeat=0,
@@ -343,30 +342,30 @@ async def timer(
     alert=True,
     bot=bot,
 ):
-    await command_builder.timer(
-        ctx,
-        day,
-        week,
-        hour,
-        minute,
-        messagestart,
-        messageend,
-        messageaftercomplete,
-        countdownname,
-        mention,
-        repeat,
-        preset,
-        image,
-        otherchannel,
-        exact,
-        alert,
-        bot,
-    )
+  await command_builder.timer(
+      ctx,
+      day,
+      week,
+      hour,
+      minute,
+      messagestart,
+      messageend,
+      messageaftercomplete,
+      countdownname,
+      mention,
+      repeat,
+      preset,
+      image,
+      otherchannel,
+      exact,
+      alert,
+      bot,
+  )
 
 
 @interactions.slash_command(
     name="preset",
-    description="Use a preset timer",
+    description="プリセットタイマーを使う",
     options=[
         SlashCommandOption(
             name="presetid",
@@ -379,12 +378,12 @@ async def timer(
     ],
 )
 async def preset(ctx: interactions.SlashContext, presetid=0, bot=bot):
-    await command_builder.preset(ctx, presetid, bot)
+  await command_builder.preset(ctx, presetid, bot)
 
 
 @interactions.slash_command(
     name="listpreset",
-    description="List all presets",
+    description="すべてのプリセットを表示",
     options=[
         SlashCommandOption(
             name="page",
@@ -396,7 +395,7 @@ async def preset(ctx: interactions.SlashContext, presetid=0, bot=bot):
     ],
 )
 async def listpreset(ctx: interactions.SlashContext, page=1):
-    await command_builder.list_preset(ctx, page)
+  await command_builder.list_preset(ctx, page)
 
 
 # @interactions.slash_command(
@@ -466,7 +465,6 @@ async def listpreset(ctx: interactions.SlashContext, page=1):
 # )
 # async def list(ctx: interactions.SlashContext, sub_command: str, page=1, hidden=True):
 #    await command_builder.list_countdowns(ctx, sub_command, page, hidden)
-
 
 # @interactions.slash_command(
 #    name="timeleft",
@@ -546,21 +544,17 @@ async def listpreset(ctx: interactions.SlashContext, page=1):
 #        ctx, sub_command, showmine, showchannel, showguild, hidden
 #    )
 
-
 # @bot.autocomplete("timeleft", "showmine")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "mine")
-
 
 # @bot.autocomplete("timeleft", "showchannel")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "channel")
 
-
 # @bot.autocomplete("timeleft", "showguild")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "guild")
-
 
 # @interactions.slash_command(
 #    name="delete",
@@ -645,37 +639,30 @@ async def listpreset(ctx: interactions.SlashContext, page=1):
 #        bot, ctx, sub_command, sub_command_group, deletemine, deletechannel, deleteguild
 #    )
 
-
 # @bot.autocomplete("delete", "deletemine")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "mine")
-
 
 # @bot.autocomplete("delete", "deletechannel")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "channel")
 
-
 # @bot.autocomplete("delete", "deleteguild")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "guild")
-
 
 # Here are the functions that runs when the verify/cancel buttons are pressed
 # @bot.component("deleteguild")
 # async def button_response(ctx):
 #    await command_builder.delete_button(ctx, "guild")
 
-
 # @bot.component("deletechannel")
 # async def button_response(ctx):
 #    await command_builder.delete_button(ctx, "channel")
 
-
 # @bot.component("deletemine")
 # async def button_response(ctx):
 #    await command_builder.delete_button(ctx, "mine")
-
 
 # @bot.component("deletecancel")
 # async def button_response(ctx):
@@ -687,7 +674,7 @@ async def listpreset(ctx: interactions.SlashContext, page=1):
     description="Shows stats of bot",
 )
 async def botstats(ctx: interactions.SlashContext):
-    await command_builder.botstats(ctx, bot)
+  await command_builder.botstats(ctx, bot)
 
 
 @interactions.slash_command(
@@ -696,7 +683,7 @@ async def botstats(ctx: interactions.SlashContext):
     #    default_member_permission=interactions.Permissions.ADMINISTRATOR,
 )
 async def fixperms(ctx: interactions.SlashContext):
-    await command_builder.fixperms(ctx, bot)
+  await command_builder.fixperms(ctx, bot)
 
 
 @interactions.slash_command(
@@ -723,13 +710,12 @@ async def editmention(
     countdown="",
     mention="0",
 ):
-    await command_builder.edit_mention(ctx, countdown, mention)
+  await command_builder.edit_mention(ctx, countdown, mention)
 
 
 # @bot.autocomplete("editmention", "countdown")
 # async def autocomplete(self, ctx: interactions.AutocompleteContext, value: str = ""):
 #    await command_builder.autocomplete_countdowns(ctx, value, "mine")
-
 
 # This command is not entierly active yet. It is just a prototype for when the bot is availible in multiple languages.
 # @interactions.slash_command(
@@ -760,7 +746,7 @@ async def editmention(
     default_member_permissions=interactions.Permissions.ADMINISTRATOR,
 )
 async def log(ctx: interactions.SlashContext):
-    await command_builder.log(ctx)
+  await command_builder.log(ctx)
 
 
 @interactions.slash_command(
@@ -792,8 +778,11 @@ async def log(ctx: interactions.SlashContext):
         ),
     ],
 )
-async def addpremium(ctx: interactions.SlashContext, userid, guildid=0, level=1):
-    await command_builder.add_premium(ctx, userid, guildid, level)
+async def addpremium(ctx: interactions.SlashContext,
+                     userid,
+                     guildid=0,
+                     level=1):
+  await command_builder.add_premium(ctx, userid, guildid, level)
 
 
 @interactions.slash_command(
@@ -819,7 +808,7 @@ async def addpremium(ctx: interactions.SlashContext, userid, guildid=0, level=1)
     ],
 )
 async def deletepremium(ctx: interactions.SlashContext, userid, level=1):
-    await command_builder.delete_premium(ctx, userid, level)
+  await command_builder.delete_premium(ctx, userid, level)
 
 
 @interactions.slash_command(
@@ -837,7 +826,7 @@ async def deletepremium(ctx: interactions.SlashContext, userid, level=1):
     ],
 )
 async def makethispremium(ctx: interactions.SlashContext, index=1):
-    await command_builder.make_this_premium(ctx, index)
+  await command_builder.make_this_premium(ctx, index)
 
 
 @interactions.slash_command(
@@ -856,9 +845,9 @@ async def makethispremium(ctx: interactions.SlashContext, index=1):
     ],
 )
 async def listpremium(ctx: interactions.SlashContext, page=1):
-    await command_builder.list_premium(ctx, page)
+  await command_builder.list_premium(ctx, page)
 
-    
+
 @interactions.slash_command(
     name="latencies",
     description="List all latencies",
@@ -866,11 +855,10 @@ async def listpremium(ctx: interactions.SlashContext, page=1):
     default_member_permissions=interactions.Permissions.ADMINISTRATOR,
 )
 async def latencies(ctx: interactions.SlashContext):
-    result = bot.latencies
-    await ctx.send(
-        f"{result}"
-    )
-    
+  result = bot.latencies
+  await ctx.send(f"{result}")
+
+
 @interactions.slash_command(
     name="killitwithfire",
     description="Restarts the bot hopefully",
@@ -878,10 +866,8 @@ async def latencies(ctx: interactions.SlashContext):
     default_member_permissions=interactions.Permissions.ADMINISTRATOR,
 )
 async def killitwithfire(ctx: interactions.SlashContext):
-    await ctx.send(
-        "restarting"
-    )
-    bot.stop()
+  await ctx.send("restarting")
+  bot.stop()
 
 
 # Here are message commands - commands that are activated by a message
@@ -889,12 +875,12 @@ async def killitwithfire(ctx: interactions.SlashContext):
 
 @interactions.message_context_menu(name="deletethis")
 async def deletethis(ctx: interactions.ContextMenuContext):
-    await command_builder.delete_this(bot, ctx)
+  await command_builder.delete_this(bot, ctx)
 
 
 @interactions.message_context_menu(name="timeleftthis")
 async def timeleftthis(ctx: interactions.ContextMenuContext):
-    await command_builder.timeleft_this(ctx)
+  await command_builder.timeleft_this(ctx)
 
 
 # Jokes
@@ -903,7 +889,7 @@ async def timeleftthis(ctx: interactions.ContextMenuContext):
     description="If you are curious about who the greatest is",
 )
 async def timeleftthis(ctx: interactions.SlashContext):
-    await ctx.send("<@729791860674920488>")
+  await ctx.send("<@729791860674920488>")
 
 
 @interactions.slash_command(
@@ -911,18 +897,17 @@ async def timeleftthis(ctx: interactions.SlashContext):
     description="If you are curious about who the boss is",
 )
 async def timeleftthis(ctx: interactions.SlashContext):
-    await ctx.send(
-        "<@360084558265450496>",
-        ephemeral=True,
-    )
+  await ctx.send(
+      "<@360084558265450496>",
+      ephemeral=True,
+  )
 
 
 # This is the task that keeps looking if any countdowns are done.
-@interactions.Task.create(
-    interactions.IntervalTrigger(5)
-)  # 5 means execute task each 5 second
+@interactions.Task.create(interactions.IntervalTrigger(5)
+                          )  # 5 means execute task each 5 second
 async def timer_check():
-    await command_builder.check_done(bot)
+  await command_builder.check_done(bot)
 
 
 # shard(bot)
