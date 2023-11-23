@@ -1,6 +1,8 @@
 # Main library that makes all the bot stuff
 import interactions
 
+from keep_alive import keep_alive # 追加
+
 # Importing from interactions for v5 conversion
 from interactions import (
     slash_command,
@@ -888,7 +890,7 @@ async def timeleftthis(ctx: interactions.ContextMenuContext):
     name="whoisthegreatest",
     description="If you are curious about who the greatest is",
 )
-async def timeleftthis(ctx: interactions.SlashContext):
+async def timeleftthis_1(ctx: interactions.SlashContext):
   await ctx.send("<@729791860674920488>")
 
 
@@ -896,11 +898,11 @@ async def timeleftthis(ctx: interactions.SlashContext):
     name="whoistheboss",
     description="If you are curious about who the boss is",
 )
-async def timeleftthis(ctx: interactions.SlashContext):
-  await ctx.send(
-      "<@360084558265450496>",
-      ephemeral=True,
-  )
+async def timeleftthis_2(ctx: interactions.SlashContext):
+   await ctx.send(
+       "<@360084558265450496>",
+       ephemeral=True,
+   )
 
 
 # This is the task that keeps looking if any countdowns are done.
@@ -912,5 +914,11 @@ async def timer_check():
 
 # shard(bot)
 
+# keep alive
+keep_alive()
+
 # Start the bot!
-bot.start()
+try:
+    bot.start()
+except:
+    os.system("kill 1")
