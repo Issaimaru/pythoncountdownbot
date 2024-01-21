@@ -5,4 +5,4 @@ interactions-wait-for==1.0.6
 psutil==5.9.1
 python-dotenv==0.20.0
 validators==0.20.0
-flask==2.0.2
+Flask==2.2.3
