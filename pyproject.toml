@@ -12,6 +12,7 @@ validators = "^0.22.0"
 components = "^1.2.8"
 dateparser = "^1.2.0"
 discord-py-slash-command = "^4.2.1"
+flask = "^3.0.0"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
