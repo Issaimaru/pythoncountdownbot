@@ -4,7 +4,7 @@
 ![image](https://github.com/Issaimaru/pythoncountdownbot/assets/80198387/1fad1b14-af34-4c3a-9c79-98f9b5a6e949)
 
 ## environment
-テキトーにreplitで立ち上げてるんですが，結構いいですねこれ<br>
+~~テキトーにreplitで立ち上げてるんですが，結構いいですねこれ~~ [追記]2024/01/21 ついに仕様変更で自動起動できなくなったのでrenderに移行しました<br>
 招待リンクは[こちら](https://discord.com/api/oauth2/authorize?client_id=1176812572566114364&permissions=8&scope=bot%20applications.commands)
 
 ## Links
